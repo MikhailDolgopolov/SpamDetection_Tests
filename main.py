@@ -3,14 +3,15 @@ import pickle
 import json
 from pathlib import Path
 
+import pandas as pd
 from sklearn.model_selection import GridSearchCV
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 
-from dataset_loader import download_dataset
+from dataset_loader import download_dataset, merged_dataset
 
 model_dir = Path("models")
 
@@ -30,12 +31,13 @@ def load_model(filename="best_model.pkl"):
 def search_tuned_model(_x_train, _y_train):
     pipeline = Pipeline([('vec', CountVectorizer(stop_words='english')), ('clf', MultinomialNB())])
     param_grid = {
-        'vec__min_df': [1],
-        'vec__max_df': [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+        'vec': [CountVectorizer(stop_words='english'), TfidfVectorizer(stop_words='english')],
+        'vec__min_df': [3, 5, 7],
+        'vec__max_df': [0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
         'vec__ngram_range': [(1, 1), (1, 2)],
-        'clf__alpha': [0.1, 0.2, 0.3, 0.4, 0.5]
+        'clf__alpha': [0.1, 0.4, 0.7, 1.0]
     }
-    grid = GridSearchCV(pipeline, param_grid, cv=4, scoring='f1', n_jobs=4)
+    grid = GridSearchCV(pipeline, param_grid, cv=3, scoring='f1_macro', n_jobs=-1)
     grid.fit(_x_train, _y_train)
     return grid
 
@@ -51,25 +53,29 @@ def train_default_model(_x_train, _y_train):
     pipeline.fit(_x_train, _y_train)
     return pipeline
 
-def general_grid_search(ds_name:str='enron'):
-    texts, labels = download_dataset(ds_name)
+
+def general_grid_search(big_df: pd.DataFrame):
+    texts, labels = big_df['text'], big_df['label']
     X_train, X_val, y_train, y_val = train_test_split(
-        texts, labels, test_size=0.2, stratify=labels, random_state=42
+        texts, labels, test_size=0.1, stratify=labels, random_state=42
     )
 
     tuned_model = search_tuned_model(X_train, y_train)
-    # Получение лучших параметров
-    best_params = tuned_model.best_params_
 
+    best_params = tuned_model.best_params_
+    print("Best params:", best_params)
     # Преобразование словаря для сохранения в JSON
     json_params = {}
     for key, value in best_params.items():
-        json_params[key] = value  # Просто копируем значения
+        if '__' in key:
+            json_params[key] = value  # Просто копируем значения
+        else:
+            json_params[key] = type(value).__name__
 
     # Сохранение параметров в JSON файл
     with open("pipeline_config.json", "w") as f:
         json.dump(json_params, f, indent=2)
-    print("Best params:", best_params)
+
     evaluate_model(tuned_model, X_val, y_val)
 
 
@@ -85,21 +91,19 @@ def load_new_best_pipeline():
             vec_params[key.replace("vec__", "")] = value
         elif key.startswith("clf__"):
             clf_params[key.replace("clf__", "")] = value
+    pipe = []
+    if 'Count' in loaded_params['vec']:
+        pipe.append(('vec', CountVectorizer(**vec_params)))
+    elif 'Tfidf' in loaded_params['vec']:
+        pipe.append(('vec', TfidfVectorizer(**vec_params)))
 
-    pipeline = Pipeline([
-        ('vec', CountVectorizer(**vec_params)),
-        ('clf', MultinomialNB(**clf_params))
-    ])
-    return pipeline
+    pipe.append(('clf', MultinomialNB(**clf_params)))
+
+    return Pipeline(pipe)
 
 
 if __name__ == "__main__":
-    general_grid_search()
-    texts, labels = download_dataset("lingspam")
-    X_train, X_val, y_train, y_val = train_test_split(
-        texts, labels, test_size=0.2, stratify=labels, random_state=42
-    )
-    loaded_pipeline = load_new_best_pipeline()
-    loaded_pipeline.fit(X_train, y_train)
-    evaluate_model(loaded_pipeline, X_val, y_val)
+    df = merged_dataset(["enron", "lingspam"], 0.8)
+    general_grid_search(df)
+
 
