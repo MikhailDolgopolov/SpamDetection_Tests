@@ -16,7 +16,7 @@ from dataset_loader import download_dataset, merged_dataset
 model_dir = Path("models")
 
 
-def save_model(model, filename="best_model.pkl"):
+def save_model(model:Pipeline|GridSearchCV, filename="best_model.pkl"):
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
     with open(model_dir / Path(filename), "wb") as f:
@@ -42,7 +42,7 @@ def search_tuned_model(_x_train, _y_train):
     return grid
 
 
-def evaluate_model(model, _x_val, _y_val):
+def evaluate_model(model:Pipeline|GridSearchCV, _x_val, _y_val):
     y_pred = model.predict(_x_val)
     print(classification_report(_y_val, y_pred, digits=4))
 
@@ -79,7 +79,7 @@ def general_grid_search(big_df: pd.DataFrame):
     evaluate_model(tuned_model, X_val, y_val)
 
 
-def load_new_best_pipeline():
+def load_unfit_best_pipeline():
     loaded_params = json.load(open("pipeline_config.json", "r"))
     vec_params = {}
     clf_params = {}
@@ -102,8 +102,15 @@ def load_new_best_pipeline():
     return Pipeline(pipe)
 
 
+def fit_configured_pipeline(big_df: pd.DataFrame) -> Pipeline:
+    pipeline = load_unfit_best_pipeline()
+    pipeline.fit(big_df["text"], big_df['label'])
+    return pipeline
+
+
 if __name__ == "__main__":
-    df = merged_dataset(["enron", "lingspam"], 0.8)
-    general_grid_search(df)
+    df = merged_dataset(["enron", "lingspam"], 1)
+    # general_grid_search(df)
+    save_model(fit_configured_pipeline(df))
 
 
