@@ -1,20 +1,33 @@
-# experiments/run_001/config.yaml
 
 # --------------------- DATASET ---------------------
-datasets: ["enron", "lingspam"]   # list of dataset names you want to merge
-test_size: 0.2                    # fraction of the data kept for *validation* inside the script (the split() function uses this)
+datasets:
+  - enron
+  - lingspam
+
+test_size: 0.2   # fraction of the data kept for *validation*
 
 # ------------------- VECTORIZER --------------------
-vectorizer: ["tfidf"]               # either "count" or "tfidf"
-analyzer: ["word", "char", "char_wb"]                # character‑wide binary bag‑of‑words
-ngram_range: [[1, 1],[1, 2], [1,3], [2,3]]                # (min_n, max_n)
-min_df: [3]                           # min document frequency (int or float)
-max_df: [0.5]                         # max document frequency (float)
+vectorizer: tfidf
+analyzer:
+  - word
+
+ngram_range:  # (min_n, max_n)
+  - [1,1]
+  - [1,2]
+  - [1,3]
+  - [2,3]
+
+min_df:
+  - 3
+
+max_df:
+  - 0.5
 
 # --------------------- MODEL ----------------------
-alpha: [0.1]                          # smoothing for MultinomialNB
-cv_folds: 3                         # number of folds in GridSearchCV
-scoring: "f1_macro"                 # metric to optimise
+alpha:
+  - 0.1                          # smoothing for MultinomialNB
+cv_folds: 3                         
+scoring: f1_macro                 # metric to optimize
 
 # --------------------- TRAINING --------------------
 random_state: 42                    # reproducibility seed

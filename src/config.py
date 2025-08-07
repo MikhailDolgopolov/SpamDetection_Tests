@@ -4,16 +4,17 @@ from typing import List, Union, Tuple
 import yaml
 from pathlib import Path
 
+
 @dataclass
-class PipelineConfig:
+class ExperimentConfig:
     # ---------- DATA ----------
     datasets: List[str]
     test_size: float = 0.1
 
     # ---------- VECTORIZER ----------
-    vectorizer: List[str] = field(default_factory=lambda: ['tfidf'])        # "count" | "tfidf"
+    vectorizer: str = field(default_factory=lambda: 'tfidf')  # "count" | "tfidf"
 
-    analyzer: List[str] = field(default_factory=lambda: ['word'])      # "word", "char", "char_wb"
+    analyzer: List[str] = field(default_factory=lambda: ['word'])  # "word", "char", "char_wb"
 
     # Search space for vectorizer
     ngram_range: List[Tuple[int, int]] = field(default_factory=lambda: [(1, 2)])
@@ -29,7 +30,7 @@ class PipelineConfig:
     random_state: int = 42
 
 
-def load_yaml(path: Path | str) -> PipelineConfig:
+def load_experiment_config(path: Path) -> ExperimentConfig:
     with open(path, "r") as f:
-        raw = yaml.safe_load(f)
-    return PipelineConfig(**raw)
+        data = yaml.safe_load(f)
+    return ExperimentConfig(**data)
