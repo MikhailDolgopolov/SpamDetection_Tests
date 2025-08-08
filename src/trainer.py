@@ -33,15 +33,13 @@ def fit_and_evaluate(grid: GridSearchCV,
         probs = best_pipe.decision_function(X_val)
     auc = roc_auc_score(y_val, probs)
 
-    # ---------- architecture ----------
     arch = dump_pipeline_architecture(best_pipe)
 
     return {
         "accuracy": acc,
         "auc": auc,
         "report": rep,
-        "best_params": grid.best_params_,
-        "architecture": arch,
+        "best_arch": arch,
     }
 
 

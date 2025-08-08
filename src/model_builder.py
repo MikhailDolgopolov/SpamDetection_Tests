@@ -2,47 +2,54 @@ from pprint import pprint
 from typing import Dict, Any, List
 
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 
+from src.FastTextVectorizer import FastTextVectorizer
 from src.config import ExperimentConfig
 
 _vectorizer_registry: Dict[str, type] = {
     "count": CountVectorizer,
     "tfidf": TfidfVectorizer,
+    "fasttext": FastTextVectorizer,
+}
+_classifier_registry: Dict[str, type] = {
+    "MultinomialNB": MultinomialNB,
+    "LogisticRegression": LogisticRegression,
 }
 
 
-def build_vectorizer(name: str, **kwargs) -> Any:
-    cls = _vectorizer_registry[name]
-    return cls(**kwargs)
+def build_param_grid(cfg: ExperimentConfig) -> Dict[str, List[Any]]:
+    grid = dict()
+    vec_params = {"vec__"+k.split('__')[-1]: v for k, v in cfg.vectorizer_params.items() if f"{cfg.vectorizer}__" in k}
+
+    grid.update(vec_params)
+
+    clf_params = {"clf__"+k.split('__')[-1]: v for k, v in cfg.classifier_params.items() if f"{cfg.classifier}__" in k}
+    grid.update(clf_params)
+
+    return grid
 
 
-def build_param_grid(cfg) -> Dict[str, List[Any]]:
-    return {
-        "vec__min_df": cfg.min_df,
-        "vec__max_df": cfg.max_df,
-        "vec__ngram_range": [tuple(r) for r in cfg.ngram_range],
-        "clf__alpha": cfg.alpha,
-    }
-
-
-def build_pipeline() -> Pipeline:
-    return Pipeline([("vec", CountVectorizer()), ("clf", MultinomialNB())])
+def build_pipeline(cfg: ExperimentConfig) -> Pipeline:
+    vec_name = cfg.vectorizer
+    clf_name = cfg.classifier
+    return Pipeline([("vec", _vectorizer_registry[vec_name]()), ("clf", _classifier_registry[clf_name]())])
 
 
 def build_grid_search(cfg: ExperimentConfig) -> GridSearchCV:
-    pipeline = build_pipeline()
+    pipeline = build_pipeline(cfg)
     param_grid = build_param_grid(cfg)
-
+    pprint(param_grid)
     return GridSearchCV(
         estimator=pipeline,
         param_grid=param_grid,
         cv=cfg.cv_folds,
         scoring=cfg.scoring,
         n_jobs=-1,
-        verbose=1,
+        verbose=2,
     )
 
 

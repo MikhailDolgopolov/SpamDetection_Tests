@@ -1,8 +1,12 @@
-from dataclasses import dataclass, field
-from typing import List, Union, Tuple
-
-import yaml
 from pathlib import Path
+
+
+from dataclasses import dataclass, field
+from typing import List, Dict, Any, Union, Tuple
+import yaml
+
+DEFAULT_VECTORIZER = "tfidf"
+DEFAULT_CLASSIFIER = "MultinomialNB"
 
 
 @dataclass
@@ -12,25 +16,39 @@ class ExperimentConfig:
     test_size: float = 0.1
 
     # ---------- VECTORIZER ----------
-    vectorizer: str = field(default_factory=lambda: 'tfidf')  # "count" | "tfidf"
-
-    analyzer: List[str] = field(default_factory=lambda: ['word'])  # "word", "char", "char_wb"
-
-    # Search space for vectorizer
-    ngram_range: List[Tuple[int, int]] = field(default_factory=lambda: [(1, 2)])
-    min_df: List[Union[int, float]] = field(default_factory=lambda: [3])
-    max_df: List[Union[int, float]] = field(default_factory=lambda: [0.4])
+    vectorizer: str = DEFAULT_VECTORIZER
 
     # ---------- CLASSIFIER ----------
-    alpha: List[float] = field(default_factory=lambda: [0.01])  # MultinomialNB smoothing
+    classifier: str = DEFAULT_CLASSIFIER
 
     # ---------- CV & METRICS ----------
     cv_folds: int = 5
     scoring: str = "f1_macro"
     random_state: int = 42
 
+    # ---------- SPECIAL PARAMS ----------
+    vectorizer_params: Dict[str, Any] = field(default_factory=dict)
+    classifier_params: Dict[str, Any] = field(default_factory=dict)
+
 
 def load_experiment_config(path: Path) -> ExperimentConfig:
-    with open(path, "r") as f:
-        data = yaml.safe_load(f)
-    return ExperimentConfig(**data)
+    with open(path, 'r') as f:
+        raw_data = yaml.safe_load(f)
+
+    known_keys = set(ExperimentConfig.__annotations__.keys())
+    vec_name = raw_data.get('vectorizer', DEFAULT_VECTORIZER)
+    clf_name = raw_data.get('classifier', DEFAULT_CLASSIFIER)
+    vec_params = {k: v for k, v in raw_data.items() if f"{vec_name}__" in k}
+    clf_params = {k: v for k, v in raw_data.items() if f"{clf_name}__" in k}
+    normal_data = {k: v for k, v in raw_data.items() if k in known_keys}
+
+    normal_data['vectorizer_params'] = vec_params
+    normal_data['classifier_params'] = clf_params
+    return ExperimentConfig(**normal_data)
+
+
+def config_to_dict(config: ExperimentConfig) -> Dict[str, Any]:
+    return {
+        config.vectorizer: config.vectorizer_params,
+        config.classifier: config.classifier_params,
+    }
