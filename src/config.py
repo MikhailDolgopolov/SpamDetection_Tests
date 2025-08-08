@@ -40,10 +40,18 @@ def load_experiment_config(path: Path) -> ExperimentConfig:
     clf_name = raw_data.get('classifier', DEFAULT_CLASSIFIER)
     vec_params = {k: v for k, v in raw_data.items() if f"{vec_name}__" in k}
     clf_params = {k: v for k, v in raw_data.items() if f"{clf_name}__" in k}
-    normal_data = {k: v for k, v in raw_data.items() if k in known_keys}
 
+    for k, v in vec_params.items():
+        if "range" in k:
+            vec_params[k] = [tuple(r) for r in v]
+
+    for k, v in clf_params.items():
+        pass
+
+    normal_data = {k: v for k, v in raw_data.items() if k in known_keys}
     normal_data['vectorizer_params'] = vec_params
     normal_data['classifier_params'] = clf_params
+
     return ExperimentConfig(**normal_data)
 
 

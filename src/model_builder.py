@@ -49,7 +49,7 @@ def build_grid_search(cfg: ExperimentConfig) -> GridSearchCV:
         cv=cfg.cv_folds,
         scoring=cfg.scoring,
         n_jobs=-1,
-        verbose=2,
+        verbose=1,
     )
 
 
