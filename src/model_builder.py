@@ -9,7 +9,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 
 from src.config import ExperimentConfig
-from src.CachedTransformer import CachedTransformer
 from src.vectorizers.SbertVectorizer import SBERTVectorizer
 
 _vectorizer_registry: Dict[str, type] = {
@@ -68,10 +67,6 @@ def build_pipeline(cfg: ExperimentConfig) -> Pipeline:
 
     vec_inst = vec_cls()
     clf_inst = clf_cls()
-
-    if getattr(cfg, "cache_dir", None):
-        cache_dir = Path(cfg.cache_dir) / cfg.experiment_name if getattr(cfg, "experiment_name", None) else Path(cfg.cache_dir)
-        vec_inst = CachedTransformer(vec_inst, cache_dir=str(cache_dir), prefix=vec_name)
 
     return Pipeline([("vec", vec_inst), ("clf", clf_inst)])
 

@@ -12,6 +12,9 @@ dataset_map = {
     "lingspam": {"name": "mandygu/lingspam-dataset", "file": "messages.csv"},
 }
 
+VALIDATION_SET = "data/processed/test_task_emails.csv"
+VALIDATION_SET_NAME = "task_validation"
+
 
 def enron_tidy(df: pd.DataFrame) -> pd.DataFrame:
     df = df.fillna("")
@@ -47,6 +50,13 @@ def download_dataset(name: str, return_type: Literal["tuple", "dataframe"] = "tu
         KeyError: If column names aren't standardized in preprocesses
         Exception: For other errors (prints error message)
     """
+    if name == VALIDATION_SET_NAME:
+        df = pd.read_csv(VALIDATION_SET)
+        if return_type == "tuple":
+            return df["text"], df["label"]
+        elif return_type == "dataframe":
+            return df[["text", "label"]]
+
     df_path = dataset_map[name]
     try:
         # Download dataset
@@ -164,7 +174,8 @@ def emails_to_pandas():
     spam_directory = "data/test_task_emails/spam"
 
     df = parse_emails(ham_directory, spam_directory)
-    df.to_csv("data/test_task_emails.csv", index=False)
+    df.to_csv(VALIDATION_SET, index=False)
+
 
 def split(df: pd.DataFrame, test_size=0.1, random_state=42):
     X_train, X_val, y_train, y_val = train_test_split(

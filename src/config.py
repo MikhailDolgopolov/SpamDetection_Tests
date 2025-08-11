@@ -32,7 +32,6 @@ class ExperimentConfig:
     classifier_params: Dict[str, Any] = field(default_factory=dict)
 
     # ---------- OPTIONAL RUN METADATA ----------
-    cache_dir: Optional[str] = "data/cache"
     experiment_name: Optional[str] = None  # if not provided, use folder name
 
 
