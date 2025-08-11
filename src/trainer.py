@@ -2,12 +2,13 @@ import pickle
 import tempfile
 import time
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Tuple
 
 import joblib
 import numpy as np
 from sklearn.metrics import classification_report, roc_auc_score, accuracy_score
 from sklearn.model_selection import GridSearchCV
+from sklearn.pipeline import Pipeline
 
 from src.model_builder import dump_pipeline_architecture
 
@@ -67,7 +68,7 @@ def fit_and_evaluate(grid: GridSearchCV,
                      X_val,   y_val,
                      random_state=None,
                      infer_repeats: int = 3,
-                     per_sample_measure: int = 100) -> Dict[str, Any]:
+                     per_sample_measure: int = 100) -> Tuple[GridSearchCV, Dict[str, Any]]:
 
     # ---------- training time ----------
     t0 = time.perf_counter()
@@ -126,7 +127,7 @@ def fit_and_evaluate(grid: GridSearchCV,
     except Exception:
         model_size = None
 
-    return {
+    return grid, {
         "accuracy": float(acc),
         "auc": auc,
         "report": rep,

@@ -87,6 +87,18 @@ def build_grid_search(cfg: ExperimentConfig) -> GridSearchCV:
     )
 
 
+def build_pipeline_from_params(vec_name: str, clf_name: str, vec_params: Dict[str,Any], clf_params: Dict[str,Any]):
+    Vec = _vectorizer_registry[vec_name]
+    Clf = _classifier_registry[clf_name]
+    vec = Vec(**{k:v for k,v in vec_params.items() if k in Vec().__dict__ or True})
+    clf = Clf(**{k:v for k,v in clf_params.items() if k in Clf().__dict__ or True})
+    pipe = Pipeline([("vec", vec), ("clf", clf)])
+    # set remaining params (GridSearch style) in case some params are meant to be set after instantiation
+    pipe.set_params(**{f"vec__{k}": v for k,v in vec_params.items()})
+    pipe.set_params(**{f"clf__{k}": v for k,v in clf_params.items()})
+    return pipe
+
+
 def dump_pipeline_architecture(pipeline: Pipeline) -> Dict[str, Any]:
     """Return a JSON‑serialisable description of the pipeline."""
     arch = {}

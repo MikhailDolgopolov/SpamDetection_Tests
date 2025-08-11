@@ -17,12 +17,12 @@ tfidf__min_df:
 
 tfidf__ngram_range:
   - [1, 1]
-  - [1, 2]
+#  - [1, 2]
 
 MultinomialNB__alpha:
   - 0.1
   - 0.3
-  - 0.5
+#  - 0.5
 
 # --------------------- TRAINING --------------------
 cv_folds: 4

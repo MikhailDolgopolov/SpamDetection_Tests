@@ -32,7 +32,7 @@ class ExperimentConfig:
     classifier_params: Dict[str, Any] = field(default_factory=dict)
 
     # ---------- OPTIONAL RUN METADATA ----------
-    experiment_name: Optional[str] = None  # if not provided, use folder name
+    own_dir: Optional[Path] = None  # if not provided, use folder
 
 
 def load_experiment_config(path: Path) -> ExperimentConfig:
@@ -57,10 +57,3 @@ def load_experiment_config(path: Path) -> ExperimentConfig:
     normal_data['classifier_params'] = clf_params
 
     return ExperimentConfig(**normal_data)
-
-
-def config_to_dict(config: ExperimentConfig) -> Dict[str, Any]:
-    return {
-        config.vectorizer: config.vectorizer_params,
-        config.classifier: config.classifier_params,
-    }
