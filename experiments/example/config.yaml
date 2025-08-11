@@ -2,6 +2,7 @@
 # --------------------- DATASET ---------------------
 datasets:
   - enron
+sample_size: 0.8
 
 test_size: 0.2   # fraction of the data kept for *validation*
 

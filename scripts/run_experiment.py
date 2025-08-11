@@ -34,16 +34,19 @@ def _convert_ndarray_to_list(o):
 def main(cfg_path: Path):
     cfg = load_experiment_config(cfg_path)
 
-    df = download_and_merge(cfg.datasets, cfg.test_size)
+    if not cfg.experiment_name:
+        cfg.experiment_name = cfg_path.parent.name
+
+    df = download_and_merge(cfg.datasets, cfg.sample_size)
     X_train, X_val, y_train, y_val = split(
         df,
-        test_size=0.1,
+        test_size=cfg.test_size,
         random_state=cfg.random_state
     )
 
     gs = build_grid_search(cfg)
-    metrics = fit_and_evaluate(gs, X_train, y_train, X_val, y_val)
-    save_model(gs.best_estimator_, filename=f"{Path(cfg_path).parent.name}_model.pkl")
+    metrics = fit_and_evaluate(gs, X_train, y_train, X_val, y_val, random_state=cfg.random_state)
+    save_model(gs.best_estimator_, filename=f"{Path(cfg_path).parent.name}_model.joblib")
 
     cfg_vec_params = {k:v for k, v in metrics["best_arch"]["vec"].items() if k in
                       {k.split("__")[-1]: v for k,v in cfg.vectorizer_params.items()}}
