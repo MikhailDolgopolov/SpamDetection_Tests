@@ -35,7 +35,7 @@ preprocesses = {
 }
 
 
-def download_dataset(name: str, return_type: Literal["tuple", "dataframe"] = "tuple")\
+def download_dataset(name: str, return_type: Literal["tuple", "dataframe"] = "tuple", na_fill=True)\
         -> Tuple[pd.Series, pd.Series] | pd.DataFrame:
     """
     Downloads a dataset from Kaggle and returns processed text and label columns.
@@ -52,6 +52,8 @@ def download_dataset(name: str, return_type: Literal["tuple", "dataframe"] = "tu
     """
     if name == VALIDATION_SET_NAME:
         df = pd.read_csv(VALIDATION_SET)
+        if na_fill:
+            df = df.fillna("")
         if return_type == "tuple":
             return df["text"], df["label"]
         elif return_type == "dataframe":
@@ -65,12 +67,9 @@ def download_dataset(name: str, return_type: Literal["tuple", "dataframe"] = "tu
             path=df_path['file']
         )
 
-        try:
-            df = pd.read_csv(dataset_path)
-        except:
-            df = pd.read_csv(dataset_path, encoding="mbcs")
-            print("Warning: Encoding troubles, using MBCS")
-
+        df = pd.read_csv(dataset_path)
+        if na_fill:
+            df = df.fillna("")
         # Preprocess
         standard = preprocesses[df_path['name']](df)
         standard['text'] = standard["text"].str.lower()
