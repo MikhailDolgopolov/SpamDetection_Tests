@@ -1,0 +1,2 @@
+experiment,timestamp,model_size_mb,n_sample,median_ms,p95_ms,throughput_sps,auc,accuracy
+minisbert_LogReg,2025-08-12T08:30:24Z,87.16361713409424,5000,8.108499998343177,26.55801501168752,134.71803027234893,0.9985990871733234,0.9914

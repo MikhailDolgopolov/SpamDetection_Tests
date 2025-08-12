@@ -1,0 +1,57 @@
+accuracy: 0.9822904368358913
+auc: 0.9900931246284921
+report:
+  '0':
+    precision: 0.9835616438356164
+    recall: 0.9958391123439667
+    f1-score: 0.9896623018607856
+    support: 721.0
+  '1':
+    precision: 0.9743589743589743
+    recall: 0.9047619047619048
+    f1-score: 0.9382716049382716
+    support: 126.0
+  accuracy: 0.9822904368358913
+  macro avg:
+    precision: 0.9789603090972954
+    recall: 0.9503005085529357
+    f1-score: 0.9639669533995285
+    support: 847.0
+  weighted avg:
+    precision: 0.9821926516820665
+    recall: 0.9822904368358913
+    f1-score: 0.9820174047979322
+    support: 847.0
+best_arch:
+  vec:
+    class_name: SBERTVectorizer
+    params:
+      model_name: all-MiniLM-L6-v2
+      batch_size: 16
+  clf:
+    class_name: LinearSVC
+    params:
+      dual: auto
+      tol: 0.001
+      C: 1
+      multi_class: ovr
+      fit_intercept: true
+      intercept_scaling: 1
+      class_weight: null
+      verbose: 0
+      random_state: null
+      max_iter: 1000
+      penalty: l2
+      loss: squared_hinge
+timing:
+  train_time_sec: 2020.3364929999952
+  inference:
+    batch_median_sec: 6.152469499997096
+    per_sample_avg_sec: 0.0072638364816966896
+    throughput_samples_per_sec: 137.66829725858858
+    per_sample_stats:
+      median: 0.00829035000060685
+      p95: 0.027736125002411422
+      samples_measured: 100
+    probability_time_sec: 6.096528200010653
+model_size_bytes: 91399053

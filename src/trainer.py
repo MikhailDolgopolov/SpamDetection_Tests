@@ -2,6 +2,7 @@ import pickle
 import tempfile
 import time
 from pathlib import Path
+from pprint import pprint
 from typing import Dict, Any, Tuple
 
 import joblib
@@ -11,19 +12,10 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 
 from src.model_builder import dump_pipeline_architecture
+from src.utils import _measure_fn, _model_filesize_bytes
 
 MODEL_DIR = Path("models")
 MODEL_DIR.mkdir(exist_ok=True)
-
-
-def _measure_fn(fn, repeats=3):
-    """Выполнить fn() несколько раз, вернуть медиану времени."""
-    times = []
-    for _ in range(repeats):
-        t0 = time.perf_counter()
-        fn()
-        times.append(time.perf_counter() - t0)
-    return float(np.median(times)), times
 
 
 def _measure_per_sample_latency(pipeline, X_val, nsamples=100):
@@ -46,21 +38,6 @@ def _measure_per_sample_latency(pipeline, X_val, nsamples=100):
         return {"median": None, "p95": None, "samples_measured": 0}
     a = np.array(latencies)
     return {"median": float(np.median(a)), "p95": float(np.percentile(a, 95)), "samples_measured": len(a)}
-
-
-def _model_filesize_bytes(model) -> int:
-    """Сохранить временно модель в temp file и вернуть размер в байтах."""
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".tmp") as tmp:
-        tmp_path = Path(tmp.name)
-    try:
-        joblib.dump(model, tmp_path)
-        size = tmp_path.stat().st_size
-    finally:
-        try:
-            tmp_path.unlink()
-        except Exception:
-            pass
-    return int(size)
 
 
 def fit_and_evaluate(grid: GridSearchCV,
@@ -90,12 +67,7 @@ def fit_and_evaluate(grid: GridSearchCV,
     infer_per_sample = infer_total / max(1, len(X_val))
     throughput = len(X_val) / infer_total if infer_total > 0 else None
 
-    # ---------- per-sample latency distribution (sampled) ----------
-    per_sample_stats = _measure_per_sample_latency(best_pipe, list(X_val), nsamples=per_sample_measure)
-
     # ---------- predict_proba / decision_function timing & auc ----------
-    prob_time = None
-    auc = None
     try:
         # warm-up
         _ = best_pipe.predict_proba(list(X_val[:min(5, len(X_val))]))
@@ -139,7 +111,6 @@ def fit_and_evaluate(grid: GridSearchCV,
                 "batch_median_sec": float(infer_total),
                 "per_sample_avg_sec": float(infer_per_sample),
                 "throughput_samples_per_sec": float(throughput) if throughput is not None else None,
-                "per_sample_stats": per_sample_stats,
                 "probability_time_sec": float(prob_time) if prob_time is not None else None,
             }
         },

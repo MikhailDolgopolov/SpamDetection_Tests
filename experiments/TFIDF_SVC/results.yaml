@@ -1,0 +1,77 @@
+accuracy: 0.9905493207324276
+auc: 0.9989746096493446
+report:
+  '0':
+    precision: 0.9917525773195877
+    recall: 0.9972356599861782
+    f1-score: 0.994486560992419
+    support: 1447.0
+  '1':
+    precision: 0.9831932773109243
+    recall: 0.9512195121951219
+    f1-score: 0.9669421487603306
+    support: 246.0
+  accuracy: 0.9905493207324276
+  macro avg:
+    precision: 0.987472927315256
+    recall: 0.9742275860906501
+    f1-score: 0.9807143548763748
+    support: 1693.0
+  weighted avg:
+    precision: 0.9905088751328593
+    recall: 0.9905493207324276
+    f1-score: 0.9904842423810228
+    support: 1693.0
+best_arch:
+  vec:
+    class_name: TfidfVectorizer
+    params:
+      input: content
+      encoding: utf-8
+      decode_error: strict
+      strip_accents: null
+      preprocessor: null
+      tokenizer: null
+      analyzer: word
+      lowercase: true
+      token_pattern: (?u)\b\w\w+\b
+      stop_words: null
+      max_df: 1.0
+      min_df: 1
+      max_features: null
+      ngram_range:
+      - 1
+      - 2
+      vocabulary: null
+      binary: false
+      norm: l2
+      use_idf: true
+      smooth_idf: true
+      sublinear_tf: false
+  clf:
+    class_name: LinearSVC
+    params:
+      dual: auto
+      tol: 0.001
+      C: 5
+      multi_class: ovr
+      fit_intercept: true
+      intercept_scaling: 1
+      class_weight: null
+      verbose: 0
+      random_state: null
+      max_iter: 1000
+      penalty: l2
+      loss: hinge
+timing:
+  train_time_sec: 45.191575600008946
+  inference:
+    batch_median_sec: 0.3326918999955524
+    per_sample_avg_sec: 0.0001965102776110764
+    throughput_samples_per_sec: 5088.792363212428
+    per_sample_stats:
+      median: 0.0004042000000481494
+      p95: 0.0014577949870727023
+      samples_measured: 100
+    probability_time_sec: 0.33140609999827575
+model_size_bytes: 17068096

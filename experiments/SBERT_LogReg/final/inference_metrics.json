@@ -1,0 +1,91 @@
+{
+  "experiment": "SBERT_LogReg",
+  "timestamp": "2025-08-12T09:50:39Z",
+  "pipeline_file": "final/best_pipeline.joblib",
+  "model": {
+    "vec": {
+      "class_name": "SBERTVectorizer",
+      "params": {
+        "batch_size": 16,
+        "model_name": "paraphrase-MPNet-base-v2"
+      }
+    },
+    "clf": {
+      "class_name": "LogisticRegression",
+      "params": {
+        "C": 10,
+        "class_weight": null,
+        "dual": false,
+        "fit_intercept": true,
+        "intercept_scaling": 1,
+        "l1_ratio": null,
+        "max_iter": 100,
+        "multi_class": "deprecated",
+        "n_jobs": null,
+        "penalty": "l2",
+        "random_state": null,
+        "solver": "liblinear",
+        "tol": 0.0001,
+        "verbose": 0,
+        "warm_start": false
+      }
+    }
+  },
+  "data": {
+    "n_total": 8465,
+    "n_sample": 5000,
+    "sample_seed": 42
+  },
+  "metrics": {
+    "batch_predict": {
+      "median_sec": 489.1080071999895,
+      "repeats_sec": [
+        489.1080071999895,
+        485.6684174999973,
+        496.67412139999215
+      ]
+    },
+    "per_sample": {
+      "median_ms": 35.39124999952037,
+      "p95_ms": 342.73992999151227,
+      "samples_measured": 200
+    },
+    "throughput_samples_per_sec": 10.222690952502786,
+    "predict_proba_sec": 494.7596405999939,
+    "auc": 0.9999956270279657,
+    "accuracy": 0.9994,
+    "classification_report": {
+      "0": {
+        "precision": 0.9995290793501295,
+        "recall": 0.9997644842204427,
+        "f1-score": 0.9996467679265277,
+        "support": 4246.0
+      },
+      "1": {
+        "precision": 0.99867197875166,
+        "recall": 0.9973474801061007,
+        "f1-score": 0.9980092899800929,
+        "support": 754.0
+      },
+      "accuracy": 0.9994,
+      "macro avg": {
+        "precision": 0.9991005290508947,
+        "recall": 0.9985559821632717,
+        "f1-score": 0.9988280289533102,
+        "support": 5000.0
+      },
+      "weighted avg": {
+        "precision": 0.9993998285798803,
+        "recall": 0.9994,
+        "f1-score": 0.9993998362522054,
+        "support": 5000.0
+      }
+    }
+  },
+  "model_size_bytes": 438526285,
+  "env": {
+    "python": "3.11.3",
+    "sklearn": "1.7.1",
+    "platform": "Windows-10-10.0.19045-SP0"
+  }
+}
