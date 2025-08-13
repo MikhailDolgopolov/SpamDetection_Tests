@@ -1,0 +1,33 @@
+{
+  "total_training_time_sec": 4.146297600000253,
+  "time_per_sample_sec": 0.0004898166095688426,
+  "model_file_size_mb": 19.20076084136963,
+  "num_samples": 8465,
+  "overfit_classification_report": {
+    "0": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 7237.0
+    },
+    "1": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 1228.0
+    },
+    "accuracy": 1.0,
+    "macro avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 8465.0
+    },
+    "weighted avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 8465.0
+    }
+  }
+}

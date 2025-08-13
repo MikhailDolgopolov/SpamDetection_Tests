@@ -1,0 +1,35 @@
+{
+  "n_total": 1596,
+  "n_sample": 1000,
+  "batch_time_sec": 244.82948660000056,
+  "auc": 0.8388105879781795,
+  "throughput_sps": 4.084475337865605,
+  "per_sample_median_ms": 157.7399000002515,
+  "classification_report": {
+    "0": {
+      "precision": 0.6726342710997443,
+      "recall": 0.7088948787061995,
+      "f1-score": 0.6902887139107612,
+      "support": 371.0
+    },
+    "1": {
+      "precision": 0.8226600985221675,
+      "recall": 0.7965023847376789,
+      "f1-score": 0.8093699515347335,
+      "support": 629.0
+    },
+    "accuracy": 0.764,
+    "macro avg": {
+      "precision": 0.7476471848109558,
+      "recall": 0.7526986317219392,
+      "f1-score": 0.7498293327227473,
+      "support": 1000.0
+    },
+    "weighted avg": {
+      "precision": 0.7670005165484486,
+      "recall": 0.764,
+      "f1-score": 0.7651908123762399,
+      "support": 1000.0
+    }
+  }
+}

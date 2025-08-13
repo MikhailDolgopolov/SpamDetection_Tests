@@ -98,7 +98,7 @@ def _build_pipeline_from_params(vec_name: str, clf_name: str, vec_params: Dict[s
     return pipe
 
 
-def build_pipeline_from_experiment_results(experiment_dir: str|Path) -> Optional[Pipeline]:
+def build_pipeline_from_experiment_results(experiment_dir: str | Path) -> Optional[Pipeline]:
     filepath = Path(experiment_dir)/"results.json"
     if not filepath.exists():
         print(f"Warning: Experiment result at {filepath} wasn't found")

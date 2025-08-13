@@ -1,0 +1,33 @@
+{
+  "total_training_time_sec": 1.9191546000001836,
+  "time_per_sample_sec": 0.0002267164323685982,
+  "model_file_size_mb": 5.247895240783691,
+  "num_samples": 8465,
+  "overfit_classification_report": {
+    "0": {
+      "precision": 0.997381116471399,
+      "recall": 0.9998618211966285,
+      "f1-score": 0.9986199282362683,
+      "support": 7237.0
+    },
+    "1": {
+      "precision": 0.9991735537190083,
+      "recall": 0.9845276872964169,
+      "f1-score": 0.9917965545529123,
+      "support": 1228.0
+    },
+    "accuracy": 0.997637330183107,
+    "macro avg": {
+      "precision": 0.9982773350952037,
+      "recall": 0.9921947542465227,
+      "f1-score": 0.9952082413945903,
+      "support": 8465.0
+    },
+    "weighted avg": {
+      "precision": 0.9976411416267521,
+      "recall": 0.997637330183107,
+      "f1-score": 0.9976300755625341,
+      "support": 8465.0
+    }
+  }
+}

@@ -1,8 +1,6 @@
 
 # --------------------- DATASET ---------------------
-datasets:
-  - enron
-  - lingspam
+datasets: [enron, lingspam]
 sample_size: 1
 
 test_size: 0.2   # fraction of the data kept for *validation*
@@ -22,15 +20,12 @@ vectorizer:
 classifier:
   LinearSVC:
     C:
-      - 0.1
       - 1
       - 5
-      - 10
     tol:
       - 0.001
       - 0.0001
     loss:
-      - hinge
       - squared_hinge
 
 # --------------------- TRAINING --------------------

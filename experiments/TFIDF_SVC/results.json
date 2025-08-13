@@ -1,30 +1,30 @@
 {
-  "accuracy": 0.9905493207324276,
-  "auc": 0.9989746096493446,
+  "accuracy": 0.9893679858239811,
+  "auc": 0.9978340384647799,
   "report": {
     "0": {
-      "precision": 0.9917525773195877,
+      "precision": 0.9903912148249828,
       "recall": 0.9972356599861782,
-      "f1-score": 0.994486560992419,
+      "f1-score": 0.993801652892562,
       "support": 1447.0
     },
     "1": {
-      "precision": 0.9831932773109243,
-      "recall": 0.9512195121951219,
-      "f1-score": 0.9669421487603306,
+      "precision": 0.9830508474576272,
+      "recall": 0.943089430894309,
+      "f1-score": 0.9626556016597511,
       "support": 246.0
     },
-    "accuracy": 0.9905493207324276,
+    "accuracy": 0.9893679858239811,
     "macro avg": {
-      "precision": 0.987472927315256,
-      "recall": 0.9742275860906501,
-      "f1-score": 0.9807143548763748,
+      "precision": 0.986721031141305,
+      "recall": 0.9701625454402436,
+      "f1-score": 0.9782286272761564,
       "support": 1693.0
     },
     "weighted avg": {
-      "precision": 0.9905088751328593,
-      "recall": 0.9905493207324276,
-      "f1-score": 0.9904842423810228,
+      "precision": 0.9893246286629217,
+      "recall": 0.9893679858239811,
+      "f1-score": 0.9892760010300271,
       "support": 1693.0
     }
   },
@@ -71,23 +71,18 @@
         "random_state": null,
         "max_iter": 1000,
         "penalty": "l2",
-        "loss": "hinge"
+        "loss": "squared_hinge"
       }
     }
   },
   "timing": {
-    "train_time_sec": 45.191575600008946,
+    "train_time_sec": 14.180982500001846,
     "inference": {
-      "batch_median_sec": 0.3326918999955524,
-      "per_sample_avg_sec": 0.0001965102776110764,
-      "throughput_samples_per_sec": 5088.792363212428,
-      "per_sample_stats": {
-        "median": 0.0004042000000481494,
-        "p95": 0.0014577949870727023,
-        "samples_measured": 100
-      },
-      "probability_time_sec": 0.33140609999827575
+      "batch_median_sec": 0.3372068999960902,
+      "per_sample_avg_sec": 0.00019917714116721218,
+      "throughput_samples_per_sec": 5020.6564575624925,
+      "probability_time_sec": 0.34090740000101505
     }
   },
-  "model_size_bytes": 17068096
+  "model_size_bytes": 16997232
 }
