@@ -1,0 +1,36 @@
+
+# --------------------- DATASET ---------------------
+datasets:
+  - enron
+  - lingspam
+sample_size: 0.5
+
+test_size: 0.3   # fraction of the data kept for *validation*
+
+# --------------------- MODEL ----------------------
+
+vectorizer:
+  SBERTVectorizer:
+    model_name:
+      - all-MiniLM-L6-v2
+    batch_size:
+      - 16
+
+
+classifier:
+  LinearSVC:
+    C:
+      - 0.6
+      - 0.7
+      - 0.8
+      - 0.9
+    tol:
+      - 0.001
+    loss:
+      - squared_hinge
+      - hinge
+
+# --------------------- TRAINING --------------------
+cv_folds: 3
+scoring: f1_weighted                 # metric to optimize
+random_state: 42                    # reproducibility seed

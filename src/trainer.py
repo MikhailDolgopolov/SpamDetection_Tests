@@ -49,7 +49,7 @@ def fit_and_evaluate(grid: GridSearchCV,
 
     # ---------- training time ----------
     t0 = time.perf_counter()
-    grid.fit(X_train, y_train)  #vec__random_state=random_state, clf__random_state=random_state
+    grid.fit(X_train, y_train)
     t1 = time.perf_counter() - t0
     train_time = time.perf_counter() - t0
 

@@ -1,0 +1,33 @@
+
+# --------------------- DATASET ---------------------
+datasets:
+  - enron
+  - lingspam
+sample_size: 0.4
+
+test_size: 0.4   # fraction of the data kept for *validation*
+
+# --------------------- MODEL ----------------------
+
+vectorizer:
+  SBERTVectorizer:
+    model_name:
+      - all-MiniLM-L6-v2
+    batch_size:
+      - 4
+      - 8
+      - 16
+      - 24
+      - 32
+
+classifier:
+  LogisticRegression:
+    C:
+      - 4.0
+    solver:
+      - lbfgs
+
+# --------------------- TRAINING --------------------
+cv_folds: 2
+scoring: f1_weighted                 # metric to optimize
+random_state: 42                    # reproducibility seed

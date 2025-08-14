@@ -3,9 +3,9 @@
 datasets:
   - enron
   - lingspam
-sample_size: 0.4
+sample_size: 0.5
 
-test_size: 0.2   # fraction of the data kept for *validation*
+test_size: 0.4   # fraction of the data kept for *validation*
 
 # --------------------- MODEL ----------------------
 
@@ -15,20 +15,23 @@ vectorizer:
       - all-MiniLM-L6-v2
     batch_size:
       - 16
-      - 32
+
 
 classifier:
-  LogisticRegression:
+  LinearSVC:
     C:
       - 0.1
-      - 1.0
-      - 10
-    solver:
-      - liblinear
-      - lbfgs
-      - saga
+      - 0.3
+      - 0.5
+      - 0.8
+      - 1
+    tol:
+      - 0.001
+    loss:
+      - squared_hinge
+      - hinge
 
 # --------------------- TRAINING --------------------
-cv_folds: 2
-scoring: f1_macro                 # metric to optimize
+cv_folds: 3
+scoring: f1_weighted                 # metric to optimize
 random_state: 42                    # reproducibility seed

@@ -1,0 +1,67 @@
+{
+  "accuracy": 0.9795275590551181,
+  "auc": 0.9942864424057085,
+  "report": {
+    "0": {
+      "precision": 0.9827586206896551,
+      "recall": 0.9935779816513761,
+      "f1-score": 0.9881386861313869,
+      "support": 1090.0
+    },
+    "1": {
+      "precision": 0.9583333333333334,
+      "recall": 0.8944444444444445,
+      "f1-score": 0.9252873563218391,
+      "support": 180.0
+    },
+    "accuracy": 0.9795275590551181,
+    "macro avg": {
+      "precision": 0.9705459770114943,
+      "recall": 0.9440112130479104,
+      "f1-score": 0.9567130212266131,
+      "support": 1270.0
+    },
+    "weighted avg": {
+      "precision": 0.9792967689383655,
+      "recall": 0.9795275590551181,
+      "f1-score": 0.9792306236386952,
+      "support": 1270.0
+    }
+  },
+  "best_arch": {
+    "vec": {
+      "class_name": "SBERTVectorizer",
+      "params": {
+        "model_name": "all-MiniLM-L6-v2",
+        "batch_size": 16
+      }
+    },
+    "clf": {
+      "class_name": "LinearSVC",
+      "params": {
+        "dual": "auto",
+        "tol": 0.001,
+        "C": 0.9,
+        "multi_class": "ovr",
+        "fit_intercept": true,
+        "intercept_scaling": 1,
+        "class_weight": null,
+        "verbose": 0,
+        "random_state": null,
+        "max_iter": 1000,
+        "penalty": "l2",
+        "loss": "hinge"
+      }
+    }
+  },
+  "timing": {
+    "train_time_sec": 490.2553792000035,
+    "inference": {
+      "batch_median_sec": 9.207166799998959,
+      "per_sample_avg_sec": 0.007249737637794455,
+      "throughput_samples_per_sec": 137.93602609655596,
+      "probability_time_sec": 9.032628100001602
+    }
+  },
+  "model_size_bytes": 91399053
+}

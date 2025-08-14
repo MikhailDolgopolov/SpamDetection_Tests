@@ -11,24 +11,46 @@ vectorizer:
   TfidfVectorizer:
     min_df:
       - 1
+      - 2
       - 3
     ngram_range:
       - [1, 1]
       - [1, 2]
+    stop_words:
+      -
+      - english
+    max_features:
+      -
+      - 5000
+      - 10000
+    use_idf:
+      - True
+      - False
+    norm:
+      -
+      - l1
+      - l2
 
 
 classifier:
   LinearSVC:
     C:
-      - 1
-      - 5
+    - 0.1
+    - 1
+    - 5
+    - 10
     tol:
       - 0.001
       - 0.0001
+      - 0.00001
     loss:
-      - squared_hinge
+      - 'squared_hinge'
+      - 'hinge'
+    penalty:
+      - 'l1'
+      - 'l2'
 
 # --------------------- TRAINING --------------------
 cv_folds: 3
-scoring: f1_macro                 # metric to optimize
+scoring: f1_weighted                 # metric to optimize
 random_state: 42                    # reproducibility seed

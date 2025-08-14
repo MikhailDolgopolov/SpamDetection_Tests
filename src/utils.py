@@ -54,19 +54,13 @@ def load_json(path: Path) -> Optional[Dict[str, Any]]:
         return None
 
 
-def save_experiment_artifacts(experiment: ExperimentConfig,
-                              best_estimator,
-                              results: Dict[str, Any],
-                              save_yaml_results: bool = True):
-    experiment.own_dir.mkdir(parents=True, exist_ok=True)
+def save_experiment_artifacts(results: Dict[str, Any],
+                              output_file:str | Path = "results.json"):
 
     results = convert_ndarray_to_list(results)
 
-    with open(experiment.own_dir / "results.json", "w", encoding="utf-8") as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
-    if save_yaml_results:
-        with open(experiment.own_dir / "results.yaml", "w", encoding="utf-8") as f:
-            yaml.safe_dump(results, f, sort_keys=False, allow_unicode=True)
 
 
 def split_params(best_params: Dict[str, Any]):

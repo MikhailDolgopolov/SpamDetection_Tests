@@ -1,31 +1,31 @@
 {
-  "accuracy": 0.9911504424778761,
-  "auc": 0.9951887975738061,
+  "accuracy": 0.9645756457564576,
+  "auc": 0.9878898064834216,
   "report": {
     "0": {
-      "precision": 0.9948892674616695,
-      "recall": 0.9948892674616695,
-      "f1-score": 0.9948892674616695,
-      "support": 587.0
+      "precision": 0.9679865206402696,
+      "recall": 0.99137187230371,
+      "f1-score": 0.979539641943734,
+      "support": 1159.0
     },
     "1": {
-      "precision": 0.967032967032967,
-      "recall": 0.967032967032967,
-      "f1-score": 0.967032967032967,
-      "support": 91.0
+      "precision": 0.9404761904761905,
+      "recall": 0.8061224489795918,
+      "f1-score": 0.8681318681318682,
+      "support": 196.0
     },
-    "accuracy": 0.9911504424778761,
+    "accuracy": 0.9645756457564576,
     "macro avg": {
-      "precision": 0.9809611172473183,
-      "recall": 0.9809611172473183,
-      "f1-score": 0.9809611172473183,
-      "support": 678.0
+      "precision": 0.95423135555823,
+      "recall": 0.8987471606416509,
+      "f1-score": 0.9238357550378011,
+      "support": 1355.0
     },
     "weighted avg": {
-      "precision": 0.9911504424778761,
-      "recall": 0.9911504424778761,
-      "f1-score": 0.9911504424778761,
-      "support": 678.0
+      "precision": 0.9640071666091555,
+      "recall": 0.9645756457564576,
+      "f1-score": 0.9634245691266671,
+      "support": 1355.0
     }
   },
   "best_arch": {
@@ -33,7 +33,7 @@
       "class_name": "SBERTVectorizer",
       "params": {
         "model_name": "all-MiniLM-L6-v2",
-        "batch_size": 16
+        "batch_size": 4
       }
     },
     "clf": {
@@ -42,12 +42,12 @@
         "penalty": "l2",
         "dual": false,
         "tol": 0.0001,
-        "C": 10,
+        "C": 4.0,
         "fit_intercept": true,
         "intercept_scaling": 1,
         "class_weight": null,
         "random_state": null,
-        "solver": "saga",
+        "solver": "lbfgs",
         "max_iter": 100,
         "multi_class": "deprecated",
         "verbose": 0,
@@ -58,18 +58,13 @@
     }
   },
   "timing": {
-    "train_time_sec": 620.6890617000026,
+    "train_time_sec": 145.5416639000032,
     "inference": {
-      "batch_median_sec": 5.030492900012177,
-      "per_sample_avg_sec": 0.007419606047215601,
-      "throughput_samples_per_sec": 134.7780453081166,
-      "per_sample_stats": {
-        "median": 0.008476449998852331,
-        "p95": 0.02507466500028386,
-        "samples_measured": 100
-      },
-      "probability_time_sec": 5.010949000003166
+      "batch_median_sec": 10.289533199997095,
+      "per_sample_avg_sec": 0.007593751439112248,
+      "throughput_samples_per_sec": 131.68721784195054,
+      "probability_time_sec": 10.25744890000351
     }
   },
-  "model_size_bytes": 91397677
+  "model_size_bytes": 91399233
 }

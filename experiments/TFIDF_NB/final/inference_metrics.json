@@ -1,10 +1,10 @@
 {
   "n_total": 1596,
   "n_sample": 1000,
-  "batch_time_sec": 0.30026360000010754,
+  "batch_time_sec": 0.2926932000045781,
   "auc": 0.9239712203086232,
-  "throughput_sps": 3330.40701570101,
-  "per_sample_median_ms": 1.2547999999696913,
+  "throughput_sps": 3416.546745822447,
+  "per_sample_median_ms": 1.1929499996767845,
   "classification_report": {
     "0": {
       "precision": 0.7430406852248393,

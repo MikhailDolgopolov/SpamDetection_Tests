@@ -1,0 +1,70 @@
+{
+  "accuracy": 0.9681039574719433,
+  "auc": 0.990237148152564,
+  "report": {
+    "0": {
+      "precision": 0.9739368998628258,
+      "recall": 0.9888579387186629,
+      "f1-score": 0.9813407049067036,
+      "support": 1436.0
+    },
+    "1": {
+      "precision": 0.9319148936170213,
+      "recall": 0.8521400778210116,
+      "f1-score": 0.8902439024390244,
+      "support": 257.0
+    },
+    "accuracy": 0.9681039574719433,
+    "macro avg": {
+      "precision": 0.9529258967399236,
+      "recall": 0.9204990082698372,
+      "f1-score": 0.9357923036728639,
+      "support": 1693.0
+    },
+    "weighted avg": {
+      "precision": 0.9675578947800308,
+      "recall": 0.9681039574719433,
+      "f1-score": 0.9675120703915272,
+      "support": 1693.0
+    }
+  },
+  "best_arch": {
+    "vec": {
+      "class_name": "SBERTVectorizer",
+      "params": {
+        "model_name": "all-MiniLM-L6-v2",
+        "batch_size": 16
+      }
+    },
+    "clf": {
+      "class_name": "LogisticRegression",
+      "params": {
+        "penalty": "l2",
+        "dual": false,
+        "tol": 0.0001,
+        "C": 4,
+        "fit_intercept": true,
+        "intercept_scaling": 1,
+        "class_weight": null,
+        "random_state": null,
+        "solver": "lbfgs",
+        "max_iter": 100,
+        "multi_class": "deprecated",
+        "verbose": 0,
+        "warm_start": false,
+        "n_jobs": null,
+        "l1_ratio": null
+      }
+    }
+  },
+  "timing": {
+    "train_time_sec": 240.70724879999761,
+    "inference": {
+      "batch_median_sec": 12.482896100002108,
+      "per_sample_avg_sec": 0.00737324046072186,
+      "throughput_samples_per_sec": 135.62557810600651,
+      "probability_time_sec": 12.590739399995073
+    }
+  },
+  "model_size_bytes": 91399217
+}

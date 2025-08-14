@@ -64,7 +64,7 @@ def build_pipeline(cfg: ExperimentConfig) -> Pipeline:
     return Pipeline([("vec", vec_inst), ("clf", clf_inst)])
 
 
-def build_grid_search(cfg: ExperimentConfig, verbose=1) -> GridSearchCV:
+def build_grid_search(cfg: ExperimentConfig, verbose=1, n_jobs:int = -1) -> GridSearchCV:
     pipeline = build_pipeline(cfg)
     param_grid = build_param_grid(cfg)
     return GridSearchCV(
@@ -72,7 +72,7 @@ def build_grid_search(cfg: ExperimentConfig, verbose=1) -> GridSearchCV:
         param_grid=param_grid,
         cv=cfg.cv_folds,
         scoring=cfg.scoring,
-        n_jobs=-1,
+        n_jobs=n_jobs,
         verbose=verbose,
         refit=True,
     )

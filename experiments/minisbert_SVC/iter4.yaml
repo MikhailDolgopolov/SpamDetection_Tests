@@ -5,7 +5,7 @@ datasets:
   - lingspam
 sample_size: 0.5
 
-test_size: 0.2   # fraction of the data kept for *validation*
+test_size: 0.3   # fraction of the data kept for *validation*
 
 # --------------------- MODEL ----------------------
 
@@ -15,24 +15,22 @@ vectorizer:
       - all-MiniLM-L6-v2
     batch_size:
       - 16
-      - 32
 
 
 classifier:
   LinearSVC:
     C:
-      - 0.1
-      - 1
-      - 5
-      - 10
+      - 0.8
+      - 0.9
+      - 1.0
     tol:
       - 0.001
       - 0.0001
+      - 0.00001
     loss:
       - hinge
-      - squared_hinge
 
 # --------------------- TRAINING --------------------
 cv_folds: 3
-scoring: f1_macro                 # metric to optimize
+scoring: f1_weighted                 # metric to optimize
 random_state: 42                    # reproducibility seed

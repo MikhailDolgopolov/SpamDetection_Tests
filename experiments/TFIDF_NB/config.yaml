@@ -3,9 +3,9 @@
 datasets:
   - enron
   - lingspam
-sample_size: 1
+sample_size: 0.6
 
-test_size: 0.2   # fraction of the data kept for *validation*
+test_size: 0.1   # fraction of the data kept for *validation*
 
 # --------------------- MODEL ----------------------
 
@@ -13,10 +13,25 @@ vectorizer:
   TfidfVectorizer:
     min_df:
       - 1
+      - 2
       - 3
     ngram_range:
       - [1, 1]
       - [1, 2]
+    stop_words:
+      -
+      - english
+    max_features:
+      -
+      - 5000
+      - 10000
+    use_idf:
+      - True
+      - False
+    norm:
+      -
+      - l1
+      - l2
 
 
 classifier:
@@ -25,8 +40,12 @@ classifier:
       - 0.1
       - 0.3
       - 0.5
+      - 1.0
+    fit_prior:
+      - True
+      - False
 
 # --------------------- TRAINING --------------------
 cv_folds: 4
-scoring: f1_macro                 # metric to optimize
+scoring: f1_weighted                 # metric to optimize
 random_state: 42                    # reproducibility seed

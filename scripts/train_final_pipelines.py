@@ -57,6 +57,6 @@ def train_pipes(frac=1):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("sample_size", type=float, default=1, help="fraction of training sets to use")
+    parser.add_argument("--sample_size", type=float, default=1, help="fraction of training sets to use")
     args = parser.parse_args()
     train_pipes(args.sample_size)

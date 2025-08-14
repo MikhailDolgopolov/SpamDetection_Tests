@@ -1,7 +1,7 @@
 {
-  "total_training_time_sec": 4.146297600000253,
-  "time_per_sample_sec": 0.0004898166095688426,
-  "model_file_size_mb": 19.20076084136963,
+  "total_training_time_sec": 3.2602669000043534,
+  "time_per_sample_sec": 0.00038514670998279424,
+  "model_file_size_mb": 14.902359962463379,
   "num_samples": 8465,
   "overfit_classification_report": {
     "0": {
